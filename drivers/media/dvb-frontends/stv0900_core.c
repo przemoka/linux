@@ -374,7 +374,7 @@ static void stv0900_set_ts_parallel_serial(struct stv0900_internal *intp,
 					enum fe_stv0900_clock_type path2_ts)
 {
 
-	dprintk("%s\n", __func__);
+	dprintk("%s path1 %d path2 %d\n", __func__, path1_ts, path2_ts);
 
 	if (intp->chip_id >= 0x20) {
 		switch (path1_ts) {
@@ -384,6 +384,8 @@ static void stv0900_set_ts_parallel_serial(struct stv0900_internal *intp,
 			case STV0900_SERIAL_PUNCT_CLOCK:
 			case STV0900_SERIAL_CONT_CLOCK:
 			default:
+ 				stv0900_write_bits(intp,
+ 					F0900_P1_TSFIFO_MANSPEED, 0);
 				stv0900_write_reg(intp, R0900_TSGENERAL,
 							0x00);
 				break;
@@ -414,6 +416,8 @@ static void stv0900_set_ts_parallel_serial(struct stv0900_internal *intp,
 				break;
 			case STV0900_PARALLEL_PUNCT_CLOCK:
 			case STV0900_DVBCI_CLOCK:
+ 				stv0900_write_bits(intp,
+ 					F0900_P2_TSFIFO_MANSPEED, 0);
 				stv0900_write_reg(intp,
 						R0900_TSGENERAL, 0x0A);
 				dprintk("%s: 0x0a\n", __func__);
@@ -429,6 +433,8 @@ static void stv0900_set_ts_parallel_serial(struct stv0900_internal *intp,
 			case STV0900_SERIAL_PUNCT_CLOCK:
 			case STV0900_SERIAL_CONT_CLOCK:
 			default:
+ 				stv0900_write_bits(intp,
+ 					F0900_P1_TSFIFO_MANSPEED, 0);
 				stv0900_write_reg(intp, R0900_TSGENERAL1X,
 							0x10);
 				break;
@@ -460,6 +466,8 @@ static void stv0900_set_ts_parallel_serial(struct stv0900_internal *intp,
 				break;
 			case STV0900_PARALLEL_PUNCT_CLOCK:
 			case STV0900_DVBCI_CLOCK:
+ 				stv0900_write_bits(intp,
+ 					F0900_P2_TSFIFO_MANSPEED, 0);
 				stv0900_write_reg(intp, R0900_TSGENERAL1X,
 							0x12);
 				dprintk("%s: 0x12\n", __func__);
